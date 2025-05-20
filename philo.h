@@ -17,12 +17,10 @@ typedef struct s_data
 	int				eat_count;
 	int				stop_flag;
 	int				start_time;
-	int				dead_flag;
 	pthread_mutex_t *forks;
 	pthread_mutex_t	dead_lock;
 	pthread_mutex_t	meal_lock;
 	pthread_mutex_t	write_lock;
-	pthread_mutex_t	eat_count_lock;
 }					t_data;
 
 typedef struct s_philo
@@ -43,5 +41,8 @@ void philo_thread(t_philo *philos);
 // ======================= Utils =======================
 int					ft_atoi(const char *str);
 size_t				get_time(void);
+void				ft_sleep(unsigned long duration);
+void				ft_clean(char *str, t_philos *philos);
+void 				ft_putstr(char *str);
 
 #endif

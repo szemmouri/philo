@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../philo.h"
 
 void	init_philos(t_philo *philos, t_data *data)
 {
@@ -13,7 +13,7 @@ void	init_philos(t_philo *philos, t_data *data)
 		philos[i].data = data;
 		philos[i].eating = 0;
 		philos[i].meals_eaten = 0;
-		philos[i].last_meal = 0;
+		philos[i].last_meal = data->start_time;
 		i++;
 	}
 }
@@ -24,8 +24,7 @@ int	init_data(t_philo *philos, t_data *data)
 
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->num_of_philos);
 	if (!data->forks)
-		return (printf("Malloc error for forks!\n"), 0);
-	data->dead_flag = 0;
+		return (ft_putstr("Malloc error for forks!\n"), 0);
 	data->stop_flag = 0;
 	data->start_time = get_time();
 	if (pthread_mutex_init(&data->dead_lock, NULL) != 0
@@ -33,13 +32,13 @@ int	init_data(t_philo *philos, t_data *data)
 		|| pthread_mutex_init(&data->write_lock, NULL) != 0
 		|| pthread_mutex_init(&data->eat_count_lock, NULL) != 0)
 	{
-		printf("Mutex init error!\n");
+		ft_putstr("Mutex init error!\n");
 		return (0);
 	}
 	i = 0;
 	while (i < data->num_of_philos)
 		if (pthread_mutex_init(&data->forks[i++], NULL) != 0)
-			return (printf("Mutex init error!\n"), 0);
+			return (ft_putstr("Mutex init error!\n"), 0);
 	init_philos(philos, data);
 	return (1);
 }
@@ -50,16 +49,16 @@ int	main(int argc, char **argv)
 	t_philo	*philos;
 
 	if (argc < 5 || argc > 6)
-		return (printf("Usage: ./philo n_p t_die t_eat t_sleep [n_meals]\n"),
+		return (ft_putstr("Usage: ./philo n_p t_die t_eat t_sleep [n_meals]\n"),
 			1);
 	data = malloc(sizeof(t_data));
 	if (!data)
-		return (printf("Malloc error!\n"), 1);
-	philos = malloc(sizeof(t_philo) * data->num_of_philos);
-	if (!philos)
-		return (printf("Malloc error!\n"), 1);
+		return (ft_putstr("Malloc error!\n"), 1);
 	if (!parce_data(argv, data))
 		return (1);
+	philos = malloc(sizeof(t_philo) * data->num_of_philos);
+		if (!philos)
+			return (ft_putstr("Malloc error!\n"), 1);
 	if (!init_data(philos, data))
 		return (1);
 	philo_thread(philos);

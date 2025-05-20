@@ -1,4 +1,15 @@
-#include "philo.h"
+#include "../philo.h"
+
+void ft_putstr(char *str)
+{
+	int i = 0;
+	while(str[i])
+	{
+		write(1, str[i], 1);
+		i++;
+	}
+}
+
 
 int	ft_atoi(const char *str)
 {
@@ -29,12 +40,39 @@ int	ft_atoi(const char *str)
 	return ((int)(result * sign));
 }
 
-size_t	get_time(void)
-{
-	struct timeval tv;
-	size_t time_in_ms;
 
-	gettimeofday(&tv, NULL);
-	time_in_ms = (tv.tv_sec * 1000) + (tv.tv_usec / 1000);
-	return (time_in_ms);
+void	ft_clean(char *str, t_philos *philos)
+{
+	int	i;
+
+	if (str)
+		ft_putstr_endl(str);
+	pthread_mutex_destroy(&philos->data->write_lock);
+	pthread_mutex_destroy(&hilos->data->meal_lock);
+	pthread_mutex_destroy(&hilos->data->ead_lock);
+	i = 0;
+	while (i < philos->data->num_of_philos)
+	{
+		pthread_mutex_destroy(&philos->data->forks[i]);
+		i++;
+	}
+}
+
+int	ft_usleep(size_t milliseconds)
+{
+	size_t	start;
+
+	start = get_current_time();
+	while ((get_current_time() - start) < milliseconds)
+		usleep(500);
+	return (0);
+}
+
+size_t	get_current_time(void)
+{
+	struct timeval	time;
+
+	if (gettimeofday(&time, NULL) == -1)
+		ft_putstr("Error: can't get current time!\n");
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }

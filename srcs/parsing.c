@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "../philo.h"
 
 int	is_number(char **argv)
 {
@@ -27,7 +27,7 @@ int	is_number(char **argv)
 int	parce_data(char **argv, t_data *data)
 {
 	if (!is_number(argv))
-		return (printf("Please enter numeric arguments!\n"), 0);
+		return (ft_putstr("Please enter numeric arguments!\n"), 0);
 	data->num_of_philos = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
@@ -41,7 +41,7 @@ int	parce_data(char **argv, t_data *data)
 		|| data->time_to_sleep <= 0 || (data->num_times_to_eat <= 0
 			&& argv[5]))
 	{
-		return (printf("Enter a valid data!\n"), 0);
+		return (ft_putstr("Enter a valid data!\n"), 0);
 	}
 	return (1);
 }
