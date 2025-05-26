@@ -1,0 +1,41 @@
+#include "../philo.h"
+
+void	eat(t_philo *philo)
+{
+
+    pthread_mutex_lock(philo->l_fork);
+    put_message("has taken a fork", philo);
+    if(philo->data->num_of_philos == 1)
+    {
+        ft_usleep(philo->data->time_to_die);
+        pthread_mutex_unlock(philo->l_fork);
+        return;
+    }
+    pthread_mutex_lock(philo->r_fork);
+    put_message("has taken a fork", philo);
+
+
+    put_message("is eating", philo);
+    philo->eating = 1;
+	pthread_mutex_lock(&philo->meal_lock);
+	philo->last_meal = get_current_time();
+    philo->meals_eaten++;
+	pthread_mutex_unlock(&philo->meal_lock);
+
+	ft_sleep(philo->data->time_to_eat);
+	philo->eating = 0;
+	
+	pthread_mutex_unlock(philo->r_fork);
+	pthread_mutex_unlock(philo->l_fork);
+}
+
+void	sleep(t_philo *philo)
+{
+	put_message("is sleeping", philo);
+	ft_sleep(philo->data->time_to_sleep);
+}
+
+void	think(t_philo *philo)
+{
+	put_message("is thinking", philo);
+}
