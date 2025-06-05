@@ -6,12 +6,10 @@ NAME     = philo
 CC       = cc
 CFLAGS   = -Wall -Wextra -Werror
 
-SRCS    =  parsing.c				   \
-			philo.c			  		\
-			utils.c					 \
-			threads.c					  \
-			actions.c		   			  \
-			monitor.c		
+SRCS    =  parsing_bonus.c			   \
+			philo_bonus.c			  	\
+			utils_bonus.c				 \
+			start_sem_bonus.c
 
 
 OBJS = $(SRCS:.c=.o)
@@ -22,7 +20,7 @@ $(NAME): $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 	@echo "$(GREEN)Philo compiled$(NC)"
 
-%.o: %.c philo.h
+%.o: %.c philo_bonus.h
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

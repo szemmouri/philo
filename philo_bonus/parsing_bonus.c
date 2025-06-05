@@ -1,4 +1,26 @@
-#include "philo.h"
+#include "philo_bonus.h"
+
+void	wait_children(t_philo *philos)
+{
+	int	i;
+	int	status;
+
+	i = 0;
+	wait(&status);
+	while (i < philos->data->num_of_philos)
+	{
+		if (philos[i].pid > 0)
+			kill(philos[i].pid, SIGTERM);
+		i++;
+	}
+	i = 0;
+	while (i < philos->data->num_of_philos)
+	{
+		if (philos[i].pid > 0)
+			waitpid(philos[i].pid, NULL, 0);
+		i++;
+	}
+}
 
 int	is_number(char **argv)
 {
@@ -38,8 +60,7 @@ int	parce_data(char **argv, t_data *data)
 		data->num_times_to_eat = -1;
 	if (data->num_of_philos < 1 || data->num_of_philos > 200
 		|| data->time_to_die <= 0 || data->time_to_eat <= 0
-		|| data->time_to_sleep <= 0 || (data->num_times_to_eat <= 0
-			&& argv[5]))
+		|| data->time_to_sleep <= 0 || (data->num_times_to_eat <= 0 && argv[5]))
 	{
 		return (ft_putstr("Enter a valid data!\n"), 0);
 	}

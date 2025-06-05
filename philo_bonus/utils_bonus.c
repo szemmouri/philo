@@ -1,4 +1,4 @@
-#include "philo.h"
+#include "philo_bonus.h"
 
 void	ft_putstr(char *str)
 {
@@ -41,21 +41,22 @@ int	ft_atoi(const char *str)
 	return ((int)(result * sign));
 }
 
-void	ft_clean(char *str, t_philo *philos)
+void	ft_clean(t_philo *philos)
 {
-	int	i;
-
-	if (str)
-		ft_putstr(str);
-	pthread_mutex_destroy(&philos->data->write_lock);
-	pthread_mutex_destroy(&philos->data->meal_lock);
-	pthread_mutex_destroy(&philos->data->dead_lock);
-	i = 0;
-	while (i < philos->data->num_of_philos)
-	{
-		pthread_mutex_destroy(&philos->data->forks[i]);
-		i++;
-	}
+	if (!philos || !philos->data)
+		return ;
+	sem_close(philos->data->forks);
+	sem_close(philos->data->write_sem);
+	sem_close(philos->data->stop_sem);
+	sem_close(philos->data->death_sem);
+	sem_close(philos->data->meal_check);
+	sem_unlink(FORK_SEM);
+	sem_unlink(WRITE_SEM);
+	sem_unlink(STOP_SEM);
+	sem_unlink(DEATH_SEM);
+	sem_unlink(MEAL_SEM);
+	free(philos->data);
+	free(philos);
 }
 
 size_t	get_current_time(void)
