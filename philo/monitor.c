@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   monitor.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szemmour <szemmour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 09:40:36 by szemmour          #+#    #+#             */
+/*   Updated: 2025/06/19 10:27:17 by szemmour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	put_message(char *message, t_philo *philo)
@@ -53,9 +65,9 @@ int	is_all_philos_ete(t_philo *philos)
 	while (i < philos->data->num_of_philos)
 	{
 		pthread_mutex_lock(&philos->data->meal_lock);
-		if (philos[i].meals_eaten >= philos->data->num_times_to_eat)
+		if (philos[i].meals_eaten > philos->data->num_times_to_eat)
 			eat_count = 1;
-		else 
+		else
 			eat_count = 0;
 		pthread_mutex_unlock(&philos->data->meal_lock);
 		i++;
@@ -72,8 +84,9 @@ int	is_all_philos_ete(t_philo *philos)
 
 void	*monitor(void *arg)
 {
-	t_philo *philos = (t_philo *)arg;
+	t_philo	*philos;
 
+	philos = (t_philo *)arg;
 	while (1)
 	{
 		if (is_any_philo_deid(philos) || is_all_philos_ete(philos))

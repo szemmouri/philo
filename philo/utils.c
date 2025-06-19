@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szemmour <szemmour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 09:41:06 by szemmour          #+#    #+#             */
+/*   Updated: 2025/06/19 09:51:57 by szemmour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	ft_putstr(char *str)
@@ -47,6 +59,8 @@ void	ft_clean(char *str, t_philo *philos)
 
 	if (str)
 		ft_putstr(str);
+	if (!philos || !philos->data)
+		return ;
 	pthread_mutex_destroy(&philos->data->write_lock);
 	pthread_mutex_destroy(&philos->data->meal_lock);
 	pthread_mutex_destroy(&philos->data->dead_lock);

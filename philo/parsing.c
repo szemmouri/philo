@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szemmour <szemmour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 09:40:42 by szemmour          #+#    #+#             */
+/*   Updated: 2025/06/19 09:40:47 by szemmour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	is_number(char **argv)
@@ -38,8 +50,7 @@ int	parce_data(char **argv, t_data *data)
 		data->num_times_to_eat = -1;
 	if (data->num_of_philos < 1 || data->num_of_philos > 200
 		|| data->time_to_die <= 0 || data->time_to_eat <= 0
-		|| data->time_to_sleep <= 0 || (data->num_times_to_eat <= 0
-			&& argv[5]))
+		|| data->time_to_sleep <= 0 || (data->num_times_to_eat <= 0 && argv[5]))
 	{
 		return (ft_putstr("Enter a valid data!\n"), 0);
 	}

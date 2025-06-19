@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szemmour <szemmour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/19 09:40:49 by szemmour          #+#    #+#             */
+/*   Updated: 2025/06/19 10:25:18 by szemmour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	init_philos(t_philo *philos, t_data *data)
@@ -54,12 +66,13 @@ int	main(int argc, char **argv)
 	if (!data)
 		return (ft_putstr("Malloc error!\n"), 1);
 	if (!parce_data(argv, data))
-		return (1);
+		return (free(data), 1);
 	philos = malloc(sizeof(t_philo) * data->num_of_philos);
-		if (!philos)
-			return (ft_putstr("Malloc error!\n"), 1);
+	if (!philos)
+		return (ft_putstr("Malloc error!\n"), 1);
 	if (!init_data(philos, data))
-		return (1);
+		return (ft_clean(NULL, philos), 1);
 	philo_thread(philos);
+	ft_clean(NULL, philos);
 	return (0);
 }

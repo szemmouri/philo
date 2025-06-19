@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szemmour <szemmour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/17 13:37:49 by szemmour          #+#    #+#             */
+/*   Updated: 2025/06/19 10:09:20 by szemmour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_BONUS_H
 # define PHILO_BONUS_H
 
@@ -9,12 +21,11 @@
 # include <sys/time.h>
 # include <sys/wait.h>
 # include <unistd.h>
+# include <fcntl.h>
 
 # define FORK_SEM "/forks_sem"
 # define WRITE_SEM "/write_sem"
-# define STOP_SEM "/stop_sem"
-# define MEAL_SEM "/meal_sem"
-# define DEATH_SEM "/death_sem"
+# define LOCK_SEM "/lock_sem"
 
 typedef struct s_data
 {
@@ -25,10 +36,8 @@ typedef struct s_data
 	int		num_times_to_eat;
 	size_t	start_time;
 	sem_t	*forks;
-	sem_t	*stop_sem;
 	sem_t	*write_sem;
-	sem_t	*death_sem;
-	sem_t	*meal_check;
+	sem_t	*lock_sem;
 }			t_data;
 
 typedef struct s_philo

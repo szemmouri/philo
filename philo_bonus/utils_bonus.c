@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_bonus.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szemmour <szemmour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/17 13:38:02 by szemmour          #+#    #+#             */
+/*   Updated: 2025/06/18 11:30:14 by szemmour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
 
 void	ft_putstr(char *str)
@@ -45,16 +57,15 @@ void	ft_clean(t_philo *philos)
 {
 	if (!philos || !philos->data)
 		return ;
-	sem_close(philos->data->forks);
-	sem_close(philos->data->write_sem);
-	sem_close(philos->data->stop_sem);
-	sem_close(philos->data->death_sem);
-	sem_close(philos->data->meal_check);
+	if (philos->data->forks != SEM_FAILED)
+		sem_close(philos->data->forks);
+	if (philos->data->write_sem != SEM_FAILED)
+		sem_close(philos->data->write_sem);
+	if (philos->data->lock_sem != SEM_FAILED)
+		sem_close(philos->data->lock_sem);
 	sem_unlink(FORK_SEM);
 	sem_unlink(WRITE_SEM);
-	sem_unlink(STOP_SEM);
-	sem_unlink(DEATH_SEM);
-	sem_unlink(MEAL_SEM);
+	sem_unlink(LOCK_SEM);
 	free(philos->data);
 	free(philos);
 }
@@ -64,7 +75,7 @@ size_t	get_current_time(void)
 	struct timeval	time;
 
 	if (gettimeofday(&time, NULL) == -1)
-		ft_putstr("Error: can't get current time!\n");
+		return (ft_putstr("Error: can't get current time!\n"), 0);
 	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
@@ -74,6 +85,6 @@ int	ft_usleep(size_t milliseconds)
 
 	start = get_current_time();
 	while ((get_current_time() - start) < milliseconds)
-		usleep(500);
+		usleep(100);
 	return (0);
 }

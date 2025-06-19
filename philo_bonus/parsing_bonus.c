@@ -1,16 +1,29 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parsing_bonus.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: szemmour <szemmour@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/17 13:39:17 by szemmour          #+#    #+#             */
+/*   Updated: 2025/06/18 11:49:47 by szemmour         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo_bonus.h"
 
 void	wait_children(t_philo *philos)
 {
 	int	i;
 	int	status;
+	int	finished_proc;
 
+	finished_proc = wait(&status);
 	i = 0;
-	wait(&status);
 	while (i < philos->data->num_of_philos)
 	{
-		if (philos[i].pid > 0)
-			kill(philos[i].pid, SIGTERM);
+		if (philos[i].pid > 0 && philos[i].pid != finished_proc)
+			kill(philos[i].pid, SIGKILL);
 		i++;
 	}
 	i = 0;
@@ -49,7 +62,10 @@ int	is_number(char **argv)
 int	parce_data(char **argv, t_data *data)
 {
 	if (!is_number(argv))
-		return (ft_putstr("Please enter numeric arguments!\n"), 0);
+	{
+		ft_putstr("Please enter numeric arguments!\n");
+		return (0);
+	}
 	data->num_of_philos = ft_atoi(argv[1]);
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
@@ -62,7 +78,8 @@ int	parce_data(char **argv, t_data *data)
 		|| data->time_to_die <= 0 || data->time_to_eat <= 0
 		|| data->time_to_sleep <= 0 || (data->num_times_to_eat <= 0 && argv[5]))
 	{
-		return (ft_putstr("Enter a valid data!\n"), 0);
+		ft_putstr("Enter a valid data!\n");
+		return (0);
 	}
 	return (1);
 }
